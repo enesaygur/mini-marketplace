@@ -1,11 +1,9 @@
 import express from "express";
-
+import homeRoutes from "./routes/homeRoutes";
 const app = express();
 const PORT = 3000;
 
-app.get("/", (req, res) => {
-  res.send("Mini Marketplace çalışıyor.");
-});
+app.use("/", homeRoutes);
 
 app.listen(PORT, () => {
   console.log(`Sunucu ${PORT} portunda çalışıyor`);
