@@ -10,12 +10,13 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+app.use("/uploads", express.static("uploads"));
+
 app.use("/", homeRoutes);
 app.use("/auth", authRoutes);
 app.use("/products", productRoutes);
 app.use("/orders", orderRoutes);
 app.use("/reviews", reviewRoutes);
-
 app.use(errorHandler);
 
 app.listen(PORT, () => {

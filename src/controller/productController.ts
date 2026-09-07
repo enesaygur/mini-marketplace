@@ -8,6 +8,7 @@ import {
 import { AppError } from "../middleware/errorHandler";
 
 const prisma = new PrismaClient();
+
 export const createProduct = async (
   req: AuthRequest,
   res: Response,
@@ -117,6 +118,42 @@ export const deleteProduct = async (
       },
     });
     res.status(200).json({ message: "Product deleted successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const uploadImage = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const productId = Number(req.params.id);
+    const existingProduct = await prisma.product.findUnique({
+      where: { id: productId },
+    });
+
+    if (!existingProduct) {
+      throw new AppError("Product not found", 404);
+    }
+
+    if (existingProduct.sellerId !== req.userId) {
+      throw new AppError("You are not authorized to update this product", 403);
+    }
+
+    if (!req.file) {
+      throw new AppError("No file uploaded", 400);
+    }
+
+    const imageUrl = `/uploads/${req.file.filename}`;
+    const updateProduct = await prisma.product.update({
+      where: { id: productId },
+      data: {
+        imageUrl,
+      },
+    });
+    res.status(200).json(updateProduct);
   } catch (error) {
     next(error);
   }
