@@ -3,6 +3,7 @@ import { AuthRequest } from "../middleware/authMiddleware";
 import { NextFunction, Response } from "express";
 import { AppError } from "../middleware/errorHandler";
 import { createOrderSchema } from "../schemas/orderSchema";
+import { getIO } from "../socket";
 
 const prisma = new PrismaClient();
 
@@ -45,6 +46,15 @@ export const createOrder = async (
         items: true,
       },
     });
+    for (const product of products) {
+      getIO()
+        .to(`user_${product.sellerId}`)
+        .emit("newOrder", {
+          message: `Ürününüz için yeni bir sipariş alındı: ${product.title}`,
+          productId: product.id,
+          orderId: order.id,
+        });
+    }
     res.status(201).json(order);
   } catch (error) {
     next(error);
