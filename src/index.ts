@@ -5,9 +5,11 @@ import authRoutes from "./routes/authRoutes";
 import productRoutes from "./routes/productRoutes";
 import orderRoutes from "./routes/orderRoutes";
 import reviewRoutes from "./routes/reviewRoutes";
+import paymentRoutes from "./routes/paymentRoutes";
 import { errorHandler } from "./middleware/errorHandler";
 import { Server } from "socket.io";
 import { initSocket } from "./socket";
+import { handleStripeWebhook } from "./controller/webhookController";
 
 const app = express();
 const httpServer = createServer(app);
@@ -21,6 +23,12 @@ initSocket(io);
 
 const PORT = 3000;
 
+app.post(
+  "/payments/webhook",
+  express.raw({ type: "application/json" }),
+  handleStripeWebhook,
+);
+
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 
@@ -29,6 +37,7 @@ app.use("/auth", authRoutes);
 app.use("/products", productRoutes);
 app.use("/orders", orderRoutes);
 app.use("/reviews", reviewRoutes);
+app.use("/payments", paymentRoutes);
 app.use(errorHandler);
 
 io.on("connection", (socket) => {

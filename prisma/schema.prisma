@@ -36,6 +36,7 @@ model Order {
     buyerId     Int         
     buyer     User        @relation(fields: [buyerId], references: [id])
     status      String      @default("pending")
+    stripeSessionId String?
     items       OrderItem[]
     createdAt   DateTime    @default(now())
 }
