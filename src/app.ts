@@ -7,8 +7,10 @@ import reviewRoutes from "./routes/reviewRoutes";
 import paymentRoutes from "./routes/paymentRoutes";
 import { errorHandler } from "./middleware/errorHandler";
 import { handleStripeWebhook } from "./controller/webhookController";
+import cors from "cors";
 
 const app = express();
+app.use(cors());
 
 app.post(
   "/payments/webhook",
