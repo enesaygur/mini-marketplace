@@ -1,10 +1,19 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+
 function App() {
   return (
-    <div className="flex h-screen items-center justify-center bg-gray-100">
-      <h1 className="text-3xl font-bold text-blue-600">
-        Mini Marketplace
-      </h1>
-    </div>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<h1>Anasayfa yakında</h1>} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
