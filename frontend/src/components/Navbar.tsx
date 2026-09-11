@@ -1,9 +1,12 @@
 import { useAuth } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 function Navbar() {
   const { token, logout } = useAuth();
+  const { items } = useCart();
   const navigate = useNavigate();
+
   const handleLogout = () => {
     logout();
     navigate("/login");
@@ -15,6 +18,9 @@ function Navbar() {
       </Link>
 
       <div className="flex items-center gap-4">
+        <Link to="/cart" className="text-gray-700 hover:text-blue-600">
+          Sepet ({items.length})
+        </Link>
         {token ? (
           <>
             <Link to="/orders" className="text-gray-700 hover:text-blue-600">

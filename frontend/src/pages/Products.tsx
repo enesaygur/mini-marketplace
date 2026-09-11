@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import type { Product } from "../types/product";
 import api from "../api/axios";
+import { useCart } from "../context/CartContext";
 
 function Products() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const { addToCart } = useCart();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -52,6 +54,12 @@ function Products() {
               <p className="text-xs text-gray-400">
                 Satıcı: {product.seller.email}
               </p>
+              <button
+                onClick={() => addToCart(product)}
+                className="mt-3 w-full rounded bg-blue-600 py-2 text-white hover:bg-blue-700"
+              >
+                Sepete Ekle
+              </button>
             </div>
           ))}
       </div>
