@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import type { Product } from "../types/product";
 import api from "../api/axios";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 function Products() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const { addToCart } = useCart();
+  const { token } = useAuth();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -29,7 +32,15 @@ function Products() {
   return (
     <div className="p-6">
       <h1 className="mb-4 text-2xl font-bold text-gray-800">Ürünler</h1>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+      {token && (
+        <Link
+          to="/create-product"
+          className="rounded bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+        >
+          Ürün Ekle
+        </Link>
+      )}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 mt-2">
         {products &&
           products.map((product) => (
             <div
