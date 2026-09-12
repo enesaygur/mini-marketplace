@@ -26,6 +26,12 @@ function Navbar() {
             <Link to="/orders" className="text-gray-700 hover:text-blue-600">
               Siparişlerim
             </Link>
+            <Link
+              to="/my-products"
+              className="text-gray-700 hover:text-blue-600"
+            >
+              Ürünlerim
+            </Link>
             <button
               onClick={handleLogout}
               className="rounded bg-red-500 px-3 py-1 text-white hover:bg-red-600"

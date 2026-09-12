@@ -7,4 +7,6 @@ export const createProductSchema = z.object({
   imageUrl: z.string().optional(),
 });
 
-export const updateProductSchema = createProductSchema.partial();
+export const updateProductSchema = createProductSchema.partial().extend({
+  isActive: z.boolean().optional(),
+});

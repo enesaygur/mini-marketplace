@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   createProduct,
   deleteProduct,
+  listMyProducts,
   listProduct,
   updateProduct,
   uploadImage,
@@ -11,10 +12,11 @@ import upload from "../middleware/uploadMiddleware";
 
 const router = Router();
 
+router.get("/mine", authMiddleware, listMyProducts);
 router.get("/", listProduct);
 router.post("/", authMiddleware, createProduct);
 router.put("/:id", authMiddleware, updateProduct);
 router.delete("/:id", authMiddleware, deleteProduct);
-router.post("/:id/image", authMiddleware, upload.single("image"),uploadImage);
+router.post("/:id/image", authMiddleware, upload.single("image"), uploadImage);
 
 export default router;

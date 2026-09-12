@@ -9,6 +9,8 @@ import Cart from "./pages/Cart";
 import OrderDetail from "./pages/OrderDetail";
 import Orders from "./pages/Orders";
 import CreateProduct from "./pages/CreateProduct";
+import MyProducts from "./pages/MyProducts";
+import EditProduct from "./pages/EditProduct";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
             <Route path="/orders/:id" element={<OrderDetail />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/create-product" element={<CreateProduct />} />
+            <Route path="/my-products" element={<MyProducts />} />
+            <Route path="/edit-product/:id" element={<EditProduct />} />
           </Routes>
         </BrowserRouter>
       </CartProvider>

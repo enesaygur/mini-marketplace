@@ -158,3 +158,21 @@ export const uploadImage = async (
     next(error);
   }
 };
+
+export const listMyProducts = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const products = await prisma.product.findMany({
+      where: {
+        sellerId: req.userId as number,
+      },
+      orderBy: { createdAt: "desc" },
+    });
+    res.status(200).json(products);
+  } catch (error) {
+    next(error);
+  }
+};
