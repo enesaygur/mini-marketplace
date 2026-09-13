@@ -47,6 +47,7 @@ function Products() {
               key={product.id}
               className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm"
             >
+              <Link to={`/products/${product.id}`}>
               {product.imageUrl && (
                 <img
                   src={`http://localhost:3000${product.imageUrl}`}
@@ -65,6 +66,7 @@ function Products() {
               <p className="text-xs text-gray-400">
                 Satıcı: {product.seller.email}
               </p>
+              </Link>
               <button
                 onClick={() => addToCart(product)}
                 className="mt-3 w-full rounded bg-blue-600 py-2 text-white hover:bg-blue-700"
