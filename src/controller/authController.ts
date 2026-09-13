@@ -76,7 +76,7 @@ export const login = async (
       { expiresIn: "12h" },
     );
 
-    res.status(200).json({ token });
+    res.status(200).json({ token, userId: user.id });
   } catch (error) {
     next(error);
   }

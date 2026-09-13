@@ -51,7 +51,6 @@ function Products() {
               {product.imageUrl && (
                 <img
                   src={`http://localhost:3000${product.imageUrl}`}
-                  // src={product.imageUrl}
                   alt={product.title}
                   className="mb-2 h-40 w-auto mx-auto rounded object-cover"
                 />
