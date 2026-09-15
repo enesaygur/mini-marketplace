@@ -14,6 +14,7 @@ import EditProduct from "./pages/EditProduct";
 import ProductDetail from "./pages/ProductDetail";
 import { useEffect } from "react";
 import { io } from "socket.io-client";
+import SellerOrders from "./pages/SellerOrders";
 
 function AppContent() {
   const { userId } = useAuth();
@@ -50,6 +51,7 @@ function AppContent() {
         <Route path="/my-products" element={<MyProducts />} />
         <Route path="/edit-product/:id" element={<EditProduct />} />
         <Route path="/products/:id" element={<ProductDetail />} />
+        <Route path="/seller-orders" element={<SellerOrders />} />
       </Routes>
     </BrowserRouter>
   );

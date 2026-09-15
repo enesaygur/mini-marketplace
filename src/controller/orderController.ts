@@ -89,3 +89,37 @@ export const listOrder = async (
     next(error);
   }
 };
+
+export const listSellerOrders = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const orders = await prisma.order.findMany({
+      where: {
+        items: {
+          some: {
+            product: {
+              sellerId: req.userId as number,
+            },
+          },
+        },
+      },
+      include: {
+        items: {
+          include: {
+            product: true,
+          },
+        },
+        buyer: {
+          select: { id: true, email: true },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+    res.status(200).json(orders);
+  } catch (error) {
+    next(error);
+  }
+};

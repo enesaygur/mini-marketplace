@@ -12,6 +12,10 @@ export interface OrderItem {
 export interface Order {
   id: number;
   buyerId: number;
+  buyer?: {
+    id: number;
+    email: string;
+  };
   status: string;
   stripeSessionId: string | null;
   createdAt: string;
