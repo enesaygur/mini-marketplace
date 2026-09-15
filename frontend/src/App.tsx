@@ -16,19 +16,22 @@ import { useEffect } from "react";
 import { io } from "socket.io-client";
 import SellerOrders from "./pages/SellerOrders";
 
+type NewOrderData = {
+  message: string;
+};
 function AppContent() {
   const { userId } = useAuth();
 
   useEffect(() => {
     if (!userId) return;
 
-    const socket = io("http://localhost:3000");
+    const socket = io("https://mini-marketplace-5hol.onrender.com/");
 
     socket.on("connect", () => {
       socket.emit("register", userId);
     });
 
-    socket.on("newOrder", (data) => {
+    socket.on("newOrder", (data: NewOrderData) => {
       alert(data.message);
     });
 
