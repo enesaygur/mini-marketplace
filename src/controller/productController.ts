@@ -6,6 +6,7 @@ import {
   updateProductSchema,
 } from "../schemas/productSchema";
 import { AppError } from "../middleware/errorHandler";
+import { uploadToCloudinary } from "../utils/cloudinaryUpload";
 
 const prisma = new PrismaClient();
 
@@ -16,6 +17,7 @@ export const createProduct = async (
 ) => {
   try {
     const result = createProductSchema.safeParse(req.body);
+
     if (!result.success) {
       throw new AppError(result.error.issues[0].message, 400);
     }
@@ -31,6 +33,7 @@ export const createProduct = async (
         sellerId: req.userId as number,
       },
     });
+
     res.status(201).json(product);
   } catch (error) {
     next(error);
@@ -47,11 +50,17 @@ export const listProduct = async (
       where: { isActive: true },
       include: {
         seller: {
-          select: { id: true, email: true },
+          select: {
+            id: true,
+            email: true,
+          },
         },
       },
-      orderBy: { createdAt: "desc" },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
+
     res.status(200).json(products);
   } catch (error) {
     next(error);
@@ -65,18 +74,24 @@ export const updateProduct = async (
 ) => {
   try {
     const productId = Number(req.params.id);
+
     const existingProduct = await prisma.product.findUnique({
       where: { id: productId },
     });
+
     if (!existingProduct) {
       throw new AppError("Product not found", 404);
     }
 
     if (existingProduct.sellerId !== req.userId) {
-      throw new AppError("You are not authorized to update this product", 403);
+      throw new AppError(
+        "You are not authorized to update this product",
+        403,
+      );
     }
 
     const result = updateProductSchema.safeParse(req.body);
+
     if (!result.success) {
       throw new AppError(result.error.issues[0].message, 400);
     }
@@ -85,6 +100,7 @@ export const updateProduct = async (
       where: { id: productId },
       data: result.data,
     });
+
     res.status(200).json(updatedProduct);
   } catch (error) {
     next(error);
@@ -108,7 +124,10 @@ export const deleteProduct = async (
     }
 
     if (existingProduct.sellerId !== req.userId) {
-      throw new AppError("You are not authorized to delete this product", 403);
+      throw new AppError(
+        "You are not authorized to delete this product",
+        403,
+      );
     }
 
     await prisma.product.update({
@@ -117,7 +136,10 @@ export const deleteProduct = async (
         isActive: false,
       },
     });
-    res.status(200).json({ message: "Product deleted successfully" });
+
+    res.status(200).json({
+      message: "Product deleted successfully",
+    });
   } catch (error) {
     next(error);
   }
@@ -130,6 +152,7 @@ export const uploadImage = async (
 ) => {
   try {
     const productId = Number(req.params.id);
+
     const existingProduct = await prisma.product.findUnique({
       where: { id: productId },
     });
@@ -139,21 +162,26 @@ export const uploadImage = async (
     }
 
     if (existingProduct.sellerId !== req.userId) {
-      throw new AppError("You are not authorized to update this product", 403);
+      throw new AppError(
+        "You are not authorized to update this product",
+        403,
+      );
     }
 
     if (!req.file) {
       throw new AppError("No file uploaded", 400);
     }
 
-    const imageUrl = `/uploads/${req.file.filename}`;
-    const updateProduct = await prisma.product.update({
+    const uploadResult = await uploadToCloudinary(req.file.buffer);
+
+    const updatedProduct = await prisma.product.update({
       where: { id: productId },
       data: {
-        imageUrl,
+        imageUrl: uploadResult.secure_url,
       },
     });
-    res.status(200).json(updateProduct);
+
+    res.status(200).json(updatedProduct);
   } catch (error) {
     next(error);
   }
@@ -169,8 +197,11 @@ export const listMyProducts = async (
       where: {
         sellerId: req.userId as number,
       },
-      orderBy: { createdAt: "desc" },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
+
     res.status(200).json(products);
   } catch (error) {
     next(error);

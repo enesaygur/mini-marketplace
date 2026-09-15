@@ -46,7 +46,7 @@ function SellerOrders() {
                 <div key={item.id} className="flex items-center gap-2">
                   {item.product.imageUrl && (
                     <img
-                      src={`http://localhost:3000${item.product.imageUrl}`}
+                      src={item.product.imageUrl}
                       alt={item.product.title}
                       className="h-10 w-10 rounded object-cover"
                     />

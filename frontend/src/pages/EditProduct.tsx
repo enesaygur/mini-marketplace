@@ -84,7 +84,7 @@ function EditProduct() {
             src={
               image
                 ? URL.createObjectURL(image)
-                : `http://localhost:3000${currentImageUrl}`
+                : `${currentImageUrl}`
             }
             alt={title}
             className="h-32 w-32 rounded object-cover"

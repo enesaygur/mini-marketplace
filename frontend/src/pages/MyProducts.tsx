@@ -63,7 +63,7 @@ function MyProducts() {
             <div className="flex items-center gap-3">
               {product.imageUrl && (
                 <img
-                  src={`http://localhost:3000${product.imageUrl}`}
+                  src={product.imageUrl}
                   alt={product.title}
                   className="h-12 w-12 rounded object-cover"
                 />

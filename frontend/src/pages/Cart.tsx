@@ -56,7 +56,7 @@ function Cart() {
             <div className="flex items-center gap-3">
               {item.product.imageUrl && (
                 <img
-                  src={`http://localhost:3000${item.product.imageUrl}`}
+                  src={item.product.imageUrl}
                   alt={item.product.title}
                   className="h-12 w-12 rounded object-cover"
                 />

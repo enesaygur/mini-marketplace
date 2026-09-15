@@ -63,7 +63,7 @@ function ProductDetail() {
       <div className="mb-6 rounded border border-gray-200 bg-white p-4">
         {product.imageUrl && (
           <img
-            src={`http://localhost:3000${product.imageUrl}`}
+            src={product.imageUrl}
             alt={product.title}
             className="mb-3 h-64 w-full rounded object-contain"
           />

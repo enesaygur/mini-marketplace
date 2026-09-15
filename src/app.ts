@@ -19,7 +19,6 @@ app.post(
 );
 
 app.use(express.json());
-app.use("/uploads", express.static("uploads"));
 
 app.use("/", homeRoutes);
 app.use("/auth", authRoutes);
