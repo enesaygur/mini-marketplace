@@ -53,8 +53,8 @@ export const createCheckoutSession = async (
         },
         quantity: item.quantity,
       })),
-      success_url: `${url}orders/${order.id}?payment=success`,
-      cancel_url: `${url}orders/${order.id}?payment=cancelled`,
+      success_url: `${url}/orders/${order.id}?payment=success`,
+      cancel_url: `${url}/orders/${order.id}?payment=cancelled`,
       metadata: { orderId: order.id.toString() },
     });
     await prisma.order.update({
