@@ -6,7 +6,7 @@ import stripe from "../utils/stripe";
 
 const prisma = new PrismaClient();
 const url =
-  "https://mini-marketplace-9fg0lbomg-enesaygurs-projects.vercel.app/";
+  "https://mini-marketplace-xi-eight.vercel.app/";
 
 export const createCheckoutSession = async (
   req: AuthRequest,
