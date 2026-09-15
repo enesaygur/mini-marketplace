@@ -5,6 +5,8 @@ import { AppError } from "../middleware/errorHandler";
 import stripe from "../utils/stripe";
 
 const prisma = new PrismaClient();
+const url =
+  "https://mini-marketplace-9fg0lbomg-enesaygurs-projects.vercel.app/";
 
 export const createCheckoutSession = async (
   req: AuthRequest,
@@ -51,8 +53,8 @@ export const createCheckoutSession = async (
         },
         quantity: item.quantity,
       })),
-      success_url: `http://localhost:5173/orders/${order.id}?payment=success`,
-      cancel_url: `http://localhost:5173/orders/${order.id}?payment=cancelled`,
+      success_url: `${url}orders/${order.id}?payment=success`,
+      cancel_url: `${url}orders/${order.id}?payment=cancelled`,
       metadata: { orderId: order.id.toString() },
     });
     await prisma.order.update({
